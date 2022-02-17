@@ -19,18 +19,25 @@ public class QueuedBoundedStack<T> implements IBoundedStack<T> {
         newQueue.offer(value);
 
         // pushing all elements from previous queue
-        while (!queue.isEmpty() && newQueue.size() < newQueue.capacity())
-            newQueue.offer(queue.poll());
+        try {
+            while (!queue.isEmpty() && newQueue.size() < newQueue.capacity())
+                newQueue.offer(queue.poll());
+        } catch (QueueIsEmptyException ignored) {
+
+        }
 
         queue = newQueue;
     }
 
     @Override
-    public T pop() {
+    public T pop() throws StackIsEmptyException {
         // Time complexity: O(1)
         // DoublyLinkedCircularBoundedQueue.poll() time complexity is O(1)
-
-        return queue.poll();
+        try {
+            return queue.poll();
+        } catch (QueueIsEmptyException exception) {
+            throw new StackIsEmptyException(exception.getMessage());
+        }
     }
 
     @Override

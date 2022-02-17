@@ -28,17 +28,23 @@ public class DoublyLinkedCircularBoundedQueue<T> implements ICircularBoundedQueu
         }
 
         // if size exceeds the capacity, then we pop first element from queue
-        if (size >= capacity)
-            poll();
+        try {
+            if (size >= capacity)
+                poll();
+        } catch (QueueIsEmptyException ignored) {
+        }
 
         tail = entry;
         size++;
     }
 
     @Override
-    public T poll() {
+    public T poll() throws QueueIsEmptyException {
         // Time complexity: O(1)
         // the function does not contain loops or parts of code that depend on the number of elements in the queue
+
+        if (size <= 0)
+            throw new QueueIsEmptyException("Cannot poll element: queue is empty");
 
         T value = head.getValue();
         head = head.getNext();  // Garbage collector will remove head that we had before

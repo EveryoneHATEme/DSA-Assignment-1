@@ -46,8 +46,12 @@ public class Main {
 
         System.out.println(queue.isFull());
 
-        while (!queue.isEmpty())
-            System.out.println(queue.poll());
+        try {
+            while (!queue.isEmpty())
+                System.out.println(queue.poll());
+        } catch (QueueIsEmptyException ignored) {
+
+        }
     }
 
     public static void checkStack() {
@@ -59,7 +63,11 @@ public class Main {
         stack.push(4);
         stack.push(5);
 
-        while (!stack.isEmpty())
-            System.out.println(stack.pop());
+        try {
+            while (!stack.isEmpty())
+                System.out.println(stack.pop());
+        } catch (StackIsEmptyException ignored) {
+
+        }
     }
 }
